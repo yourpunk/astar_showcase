@@ -6,6 +6,7 @@ namespace ASTARShowcase.Core
     public class BinaryHeap<T>
     {
         private readonly List<T> _items = new List<T>();
+        private readonly Dictionary<T, int> _indexOf = new Dictionary<T, int>();
         private readonly Comparison<T> _compare;
         public int Count => _items.Count;
         public BinaryHeap(Comparison<T> compare)
