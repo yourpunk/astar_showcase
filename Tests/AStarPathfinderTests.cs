@@ -1,7 +1,4 @@
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using AStarShowcase.Core;
 using NUnit.Framework;
 
@@ -29,20 +26,20 @@ namespace AStarShowcase.Tests
         public void FindPath_NoObstacles_PathLengthEqualsManhattanDistancePlusOne()
         {
             var grid = CreateOpenGrid(10,10,allowDiagonal: false);
-            var pathfinder = new AStarPathfinderTests<GridNode>(grid);
+            var pathfinder = new AStarPathfinder<GridNode>(grid);
             var start = grid.GetNode(0,0);
             var goal = grid.GetNode(5,5);
-            var result = pathfinder.FindPath_NoObstacles_PathLengthEqualsManhattanDistancePlusOne(start, goal);
+            var result = pathfinder.FindPath(start, goal);
             Assert.IsTrue(result.Success);
             Assert.AreEqual(11, result.Path.Count);
         }
         [Test]
-        public void FindPath_DiagonalAllowes_ShorterThanOrthogonalOnly()
+        public void FindPath_DiagonalAllowed_ShorterThanOrthogonalOnly()
         {
             var diagonalGrid = CreateOpenGrid(10,10,allowDiagonal: true);
             var orthogonalGrid = CreateOpenGrid(10,10, allowDiagonal: false);
             var diagonalResult = new AStarPathfinder<GridNode>(diagonalGrid).FindPath(diagonalGrid.GetNode(0,0), diagonalGrid.GetNode(5,5));
-            var orthogonalResult = new AStarPathfinder<GridNode>(orthogonalGridgonalGrid).FindPath(orthogonalGrid.GetNode(0,0), orthogonalGrid.GetNode(5,5));
+            var orthogonalResult = new AStarPathfinder<GridNode>(orthogonalGrid).FindPath(orthogonalGrid.GetNode(0,0), orthogonalGrid.GetNode(5,5));
             Assert.IsTrue(diagonalResult.Success);
             Assert.IsTrue(orthogonalResult.Success);
             Assert.Less(diagonalResult.Path.Count, orthogonalResult.Path.Count);
@@ -62,8 +59,8 @@ namespace AStarShowcase.Tests
         {
             var grid = CreateOpenGrid(5,5);
             grid.SetWalkable(0,0,false);
-            var pathfinder = new AStarPathfinderTests<GridNode>(grid);
-            var result = pathfinder.FindPath_CompleteWall_ReturnsFailure(grid.GetNode(0,0),grid.GetNode(4,4));
+            var pathfinder = new AStarPathfinder<GridNode>(grid);
+            var result = pathfinder.FindPath(grid.GetNode(0,0),grid.GetNode(4,4));
             Assert.IsFalse(result.Success);
             Assert.AreEqual(0, result.NodesEvaluated);
         }
@@ -96,7 +93,7 @@ namespace AStarShowcase.Tests
             grid.SetWalkable(1,0,false);
             grid.SetWalkable(0,1,false);
             var neighbors = grid.GetNeighbors(grid.GetNode(0, 0)).ToList();
-            Assert.IsFalse(neighbors.Contains(grid.GetNode(1,1)), "Diagonal move should be permitted when corner-cutting prevention is disabled.");
+            Assert.IsTrue(neighbors.Contains(grid.GetNode(1,1)), "Diagonal move should be permitted when corner-cutting prevention is disabled.");
         }
         [Test]
         public void GetNeighbors_CornerCuttingPrevented_DiagonalWithOneBlockedSideForbidden()
@@ -111,6 +108,10 @@ namespace AStarShowcase.Tests
         public void GetNeighbors_CornerCuttingPrevented_BothSidesOpenDiagonalAllowed()
         {
             var grid = CreateOpenGrid(3,3,allowDiagonal: true);
+            grid.PreventCornerCutting = true;
+            var neighbors = grid.GetNeighbors(grid.GetNode(0, 0)).ToList();
+            Assert.IsTrue(neighbors.Contains(grid.GetNode(1, 1)),
+                "Diagonal should be allowed when both orthogonal neighbors are walkable.");
         }
         [Test]
         public void FindPath_DifferentHeuristics_AllReturnSameOptimalCost()

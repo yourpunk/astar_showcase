@@ -5,7 +5,7 @@ using AStarShowcase.Core;
 
 namespace AStarShowcase.Unity
 {
-    public class PathVisualizer : Monobehaviour
+    public class PathVisualizer : MonoBehaviour
     {
         [SerializeField] private GridView gridView;
         [SerializeField] private Transform agentMarker;

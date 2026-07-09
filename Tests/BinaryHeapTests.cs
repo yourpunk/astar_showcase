@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using AStarShowcase.Core;
-using Microsoft.VisualBasic;
 using NUnit.Framework;
 
 namespace AStarShowcase.Tests
 {
     public class BinaryHeapTests
     {
-        private static BinaryHeapTests<int> CreateIntHeap()
+        private static BinaryHeap<int> CreateIntHeap()
         {
             return new BinaryHeap<int>((a,b) => a.CompareTo(b));
         }
@@ -30,12 +28,12 @@ namespace AStarShowcase.Tests
         {
             var heap = CreateIntHeap();
             Assert.AreEqual(0, heap.Count);
+ 
             heap.Insert(2);
             heap.Insert(3);
-            Assert.AreEqual(3,heap.Count);
+            Assert.AreEqual(2, heap.Count);
             heap.ExtractMin();
-            Assert.AreEqual(2,heap.Count);
-
+            Assert.AreEqual(1, heap.Count);
         }
         [Test]
         public void ExtractMin_OnEmptyHeap_Throws()

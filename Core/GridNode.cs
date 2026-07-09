@@ -1,5 +1,3 @@
-using System;
-using System.Xml;
 namespace AStarShowcase.Core
 {
     public class GridNode : INode

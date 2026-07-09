@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ASTARShowcase.Core
+namespace AStarShowcase.Core
 {
     public class BinaryHeap<T>
     {

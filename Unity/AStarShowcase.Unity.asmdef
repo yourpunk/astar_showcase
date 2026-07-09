@@ -1,0 +1,17 @@
+{
+    "name": "AStarShowcase.Unity",
+    "rootNamespace": "AStarShowcase.Unity",
+    "references": [
+        "AStarShowcase.Core",
+        "Unity.ugui",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

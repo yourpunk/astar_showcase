@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Ge;
-using System.Diagnostics.Contracts;
+using System.Collections.Generic;
 
 namespace AStarShowcase.Core
 {
-    public class Grid2D : ContractRuntimeIgnoredAttribute<GridNode>
+    public class Grid2D : IGrid<GridNode>
     {
         private readonly GridNode[,] _nodes;
         public int Width { get;}
@@ -19,7 +18,7 @@ namespace AStarShowcase.Core
             if (width <= 0 || height <=0) throw new ArgumentException("Grid dimensions must be positive.");
             Width = width;
             Height = height;
-            AllowDiagonal = allowDiaronal;
+            AllowDiagonal = allowDiagonal;
 
             _nodes = new GridNode[width, height];
             for (int x = 0; x < width; x++)
@@ -62,7 +61,7 @@ namespace AStarShowcase.Core
                 if (!InBounds(nx, ny) || !_nodes[nx, ny].IsWalkable) continue;
                 if (PreventCornerCutting)
                 {
-                    bool horizontalOpen = InBounds(node.X + dx, node.Y) && _nodes[node.X, node.Y + dy].IsWalkable;
+                    bool horizontalOpen = InBounds(node.X + dx, node.Y) && _nodes[node.X + dx, node.Y].IsWalkable;
 
                     bool verticalOpen = InBounds(node.X, node.Y + dy) && _nodes[node.X, node.Y + dy].IsWalkable;
                     if (!horizontalOpen || !verticalOpen) continue;

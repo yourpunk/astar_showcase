@@ -18,11 +18,11 @@ namespace AStarShowcase.Core
         {
             float absDx = Math.Abs(dx);
             float absDy = Math.Abs(dy);
-            const float straigthCost = 1f;
+            const float straightCost = 1f;
             const float diagonalCost = 1.41421356f;  // √2
-            float straigthSteps = Math.Abs(absDx - absDy);
+            float straightSteps = Math.Abs(absDx - absDy);
             float diagonalSteps = Math.Min(absDx, absDy);
-            return straigthCost * straigthSteps + diagonalCost * diagonalSteps;
+            return straightCost * straightSteps + diagonalCost * diagonalSteps;
         }
 
         public static float Chebyshev(int dx, int dy)
